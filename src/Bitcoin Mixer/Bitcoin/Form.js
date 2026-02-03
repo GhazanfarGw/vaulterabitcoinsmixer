@@ -35,22 +35,24 @@ const BitcoinAddressValidation = () => {
   const [withdraw, setWithdraw] = useState("");
   const [network, setNetwork] = useState("");
   const [address, setAddress] = useState("");
-  const [valid, setValid] = useState(null);
+  const [isValidAddress, setIsValidAddress] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   /* Re-validate if withdraw coin changes */
-  useEffect(() => {
-    if (address) {
-      setValid(validateAddress(withdraw, address));
-    }
-  }, [withdraw, address]);
+useEffect(() => {
+  if (!address || !withdraw) {
+    setIsValidAddress(false);
+    return;
+  }
+  const result = validateAddress(withdraw, address);
+  setIsValidAddress(result);
+}, [address, withdraw]);
 
-  const handleAddressChange = (e) => {
-    const value = e.target.value.trim();
-    setAddress(value);
-    setValid(validateAddress(withdraw, value));
-  };
+const handleAddressChange = (e) => {
+  const value = e.target.value.trim();
+  setAddress(value);
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,9 +60,9 @@ const BitcoinAddressValidation = () => {
 
     setErrorMessage("");
 
-    if (!valid) {
-      setErrorMessage("Invalid wallet address");
-      return;
+    if (!isValidAddress) {
+    setErrorMessage("Invalid wallet address");
+    return;
     }
 
     setLoading(true);
@@ -188,12 +190,12 @@ const BitcoinAddressValidation = () => {
                 onChange={handleAddressChange}
                 required
               />
-              {valid === false && (
+
+              {address.length > 0 && !isValidAddress && (
                 <p className="text-red-500 text-sm pt-2">
-                  Invalid Address
+                  Invalid wallet address
                 </p>
               )}
-
               {errorMessage && (
                 <p className="text-red-500 text-sm pt-2">
                   {errorMessage}
@@ -206,7 +208,7 @@ const BitcoinAddressValidation = () => {
               {/* Submit */}
               <div className="py-8">
                 <button
-                  disabled={!valid || loading}
+                  disabled={!isValidAddress || loading}
                   className="w-full h-11 flex items-center justify-center rounded-sm bg-[#DFC660] text-black font-semibold disabled:opacity-50"
                   type="submit"
                 >
