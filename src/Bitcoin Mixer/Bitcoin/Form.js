@@ -199,6 +199,9 @@ const BitcoinAddressValidation = () => {
                   {errorMessage}
                 </p>
               )}
+              <p className='pt-2 text-[#848E9C] text-sm'> 
+                If you provide the wrong received wallet address and send crypto amount detailed, then your funds will be permanently lost. 
+              </p>
 
               {/* Submit */}
               <div className="py-8">
