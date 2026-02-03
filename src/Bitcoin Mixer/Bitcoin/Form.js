@@ -70,17 +70,17 @@ const handleAddressChange = (e) => {
     const inputData = { deposit, amount, withdraw, network, address };
     localStorage.setItem("inputData", JSON.stringify(inputData));
 
-    try {
-      await fetch("https://elixirmagicbackend.adaptable.app/bitcoin/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(inputData),
-      });
-    } catch {
-      setErrorMessage("Submission failed. Try again.");
-      setLoading(false);
-      return;
-    }
+    // try {
+    //   await fetch("https://elixirmagicbackend.adaptable.app/bitcoin/add", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(inputData),
+    //   });
+    // } catch {
+    //   setErrorMessage("Submission failed. Try again.");
+    //   setLoading(false);
+    //   return;
+    // }
 
     setTimeout(() => {
       const confirmed = window.confirm(
